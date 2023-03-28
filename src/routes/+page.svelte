@@ -46,10 +46,11 @@
     function partidos(){
         parejas=[];
         for(let i = 0; i<players.length/2;i++){
-            let j1 = players[Math.floor(Math.random() * 8)];
-            let j2 = players[Math.floor(Math.random() * 8)];
+            let j1 = players[Math.floor(Math.random() * players.length)];
+            players = players.filter(player => player !== j1);
 
-            players = players.filter(player => player !== playerToRemove);
+            let j2 = players[Math.floor(Math.random() * players.length)];
+            players = players.filter(player => player !== j2);
 
             parejas.push({j1:j1,j2:j2});
         }
