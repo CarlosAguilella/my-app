@@ -12,16 +12,14 @@
     
     
     
-    <ul>
-        {#each players as player}
-            <li>{player} <button on:click={() => remJugador(player)}>🚮🚮🚮</button></li>            
-        {/each}
-    </ul>
+    {#each players as player}
+        <li>{player} <button on:click={() => remJugador(player)}>🚮🚮🚮</button></li>            
+    {/each}
 
-    <button disabled={faltanPlayers} on:click={partidos}>GENERAR</button>
+    <button disabled={faltanPlayers} on:click={generar}>GENERAR</button>
     
-    {#each parejas as pareja}
-        <li>{pareja.j1} y {pareja.j2}</li>
+    {#each partidos as p}
+        <li><button>{p.j1} - {p.j2}</button> vs <button>{p.j3} - {p.j4}</button></li>
     {/each}
 
 </div>
@@ -31,7 +29,8 @@
     let nPlayer ='';
 
     let players = ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
-    let parejas = [];
+    let partidos = [];
+    let ranking = [];
 
     $: faltanPlayers = players.length < nPlayer;
 
@@ -43,19 +42,27 @@
     function remJugador(playerToRemove){
         players = players.filter(player => player !== playerToRemove);
     }
-    function partidos(){
-        parejas=[];
-        for(let i = 0; i<players.length/2;i++){
-            let j1 = players[Math.floor(Math.random() * players.length)];
-            players = players.filter(player => player !== j1);
 
-            let j2 = players[Math.floor(Math.random() * players.length)];
-            players = players.filter(player => player !== j2);
+    function generar(){
+        let playersCopia = players;
+        partidos=[];
+        for(let i = 0; i<players.length/4;i++){
+            let j1 = playersCopia[Math.floor(Math.random() * playersCopia.length)];
+            playersCopia = playersCopia.filter(player => player !== j1);
 
-            parejas.push({j1:j1,j2:j2});
+            let j2 = playersCopia[Math.floor(Math.random() * playersCopia.length)];
+            playersCopia = playersCopia.filter(player => player !== j2);
+
+            let j3 = playersCopia[Math.floor(Math.random() * playersCopia.length)];
+            playersCopia = playersCopia.filter(player => player !== j3);
+
+            let j4 = playersCopia[Math.floor(Math.random() * playersCopia.length)];
+            playersCopia = playersCopia.filter(player => player !== j4);
+
+            partidos.push({j1:j1, j2:j2, j3: j3, j4:j4});
         }
 
-        parejas = parejas;
+        partidos = partidos;
     }
 </script>
 
