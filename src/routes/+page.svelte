@@ -4,7 +4,7 @@
     <h1>Torneo padel DAW</h1>
 
     {#if nPlayersEstablecido === false}
-        <input bind:value={nPlayer}/>
+        <input bind:value={nPlayer} size=4/>
         <button on:click={establecerCantidad}>CANTIDAD JUGADORES</button>
     {/if}
 
@@ -14,27 +14,28 @@
     {/if}
     
     
-    
-    {#each players as player}
-        <li>{player} {ranking[player]}<button on:click={() => remJugador(player)}>🚮🚮🚮</button></li>            
-    {/each}
+    <ol>
+        {#each players as player}
+            <li class="rank"><span class="name">{player}</span><span class="wins">{ranking[player]}</span><button on:click={() => remJugador(player)}>🚮</button></li>            
+        {/each}
+    </ol>
 
     {#if !faltanPlayers}
         <button on:click={generar}>GENERAR</button>
     {/if}
     
     {#each partidos as p}
-        <li><button on:click={() => sumar(p.j1, p.j2)}>{p.j1} - {p.j2}</button> vs <button on:click={() => sumar(p.j3, p.j4)}>{p.j3} - {p.j4}</button></li>
+        <li class="partido"><button on:click={() => sumar(p.j1, p.j2)}>{p.j1} - {p.j2}</button> vs <button on:click={() => sumar(p.j3, p.j4)}>{p.j3} - {p.j4}</button></li>
     {/each}
 
 </div>
 
 <script>
     let name = '';
-    let nPlayer = '';
-    let nPlayersEstablecido = false;
+    let nPlayer = 8;
+    let nPlayersEstablecido = true;
 
-    let players = []; // ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
+    let players = ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
     let partidos = [];
     let ranking = {'Hector':0, 'Carlos':0, 'Gerard':0, 'Alex':0,'Josep':0,'JP':0,'Juan':0,'Dolors':0};
 
@@ -74,10 +75,10 @@
     }
 
     function sumar(a, b) {
-        if (ranking[a] === undefined) ranking[a] = 0;
-        if (ranking[b] === undefined) ranking[b] = 0;
         ranking[a]++;
         ranking[b]++;
+
+        players = players.sort((a,b) => ranking[b] - ranking[a]);
     }
 
     function establecerCantidad(){
@@ -87,22 +88,33 @@
 
 <style>
     .page {
+        background: #bdc3c7;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        padding-bottom: 4em;
         display: grid;
         justify-items: center;
+        gap: 1em;
         font-family:'System UI', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
     li {
         list-style-type: "🎾";
-        background-color: rgb(89, 243, 148);
+        background: #f12711;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
         font-size: 25px;
         padding: 0.6em;
         margin: 0.3em;
         box-shadow: 3px 3px 3px black;
     }
+
     button{
         font-size: 30px;
     }
+
     input{
         font-size: 30px;
     }
@@ -110,4 +122,14 @@
         width: 8em;
         display: block;
     }
+
+    ol {
+        place-self: center stretch;
+    }
+
+    ol li.rank {
+        display: grid;
+        grid-template-columns: 4fr 1fr 1fr;
+    }
+
 </style>
