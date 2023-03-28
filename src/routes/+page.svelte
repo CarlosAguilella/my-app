@@ -48,4 +48,10 @@
         margin: 0.3em;
         box-shadow: 3px 3px 3px black;
     }
+    button{
+        font-size: 30px;
+    }
+    input{
+        font-size: 30px;
+    }
 </style>
