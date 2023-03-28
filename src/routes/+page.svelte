@@ -1,7 +1,7 @@
 <div class ='page'>
 
     <img src='logo.jpg' alt=''/>    
-    <h1>Torneo padel DAW</h1>
+    <h1>Torneo padel</h1>
 
     {#if nPlayersEstablecido === false}
         <input bind:value={nPlayer} size=4/>
