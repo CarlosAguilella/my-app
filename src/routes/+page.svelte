@@ -14,30 +14,32 @@
     {/if}
     
     
-    <ol>
+    <div class="ranks">
         {#each players as player}
-            <li class="rank"><span class="name">{player}</span><span class="wins">{ranking[player]}</span><button on:click={() => remJugador(player)}>🚮</button></li>            
+            <span class="rank"><span class="name">{player}</span><span class="wins">{ranking[player]}</span><button on:click={() => remJugador(player)}>🚮</button></span>            
         {/each}
-    </ol>
+    </div>
 
     {#if !faltanPlayers}
         <button on:click={generar}>GENERAR</button>
     {/if}
     
+    <div class="partidos">
     {#each partidos as p}
-        <li class="partido"><button on:click={() => sumar(p.j1, p.j2)}>{p.j1} - {p.j2}</button> vs <button on:click={() => sumar(p.j3, p.j4)}>{p.j3} - {p.j4}</button></li>
+        <span class="partido"><button on:click={() => sumar(p.j1, p.j2)}>{p.j1} - {p.j2}</button> VS <button on:click={() => sumar(p.j3, p.j4)}>{p.j3} - {p.j4}</button></span>
     {/each}
+    </div>
 
 </div>
 
 <script>
     let name = '';
-    let nPlayer = 8;
-    let nPlayersEstablecido = true;
+    let nPlayer = '';
+    let nPlayersEstablecido = false;
 
-    let players = ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
+    let players = []; //['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
     let partidos = [];
-    let ranking = {'Hector':0, 'Carlos':0, 'Gerard':0, 'Alex':0,'Josep':0,'JP':0,'Juan':0,'Dolors':0};
+    let ranking = {}; //{'Hector':0, 'Carlos':0, 'Gerard':0, 'Alex':0,'Josep':0,'JP':0,'Juan':0,'Dolors':0};
 
     $: faltanPlayers = nPlayer === '' || players.length < nPlayer;
 
@@ -99,7 +101,11 @@
         font-family:'System UI', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
-    li {
+    .ranks {
+        place-self: center stretch;
+        display: grid;
+    }
+    .rank {
         list-style-type: "🎾";
         background: #f12711;  /* fallback for old browsers */
         background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
@@ -109,6 +115,8 @@
         padding: 0.6em;
         margin: 0.3em;
         box-shadow: 3px 3px 3px black;
+        display: grid;
+        grid-template-columns: 3fr 2fr 1fr;
     }
 
     button{
@@ -123,13 +131,25 @@
         display: block;
     }
 
-    ol {
+    .partidos {
         place-self: center stretch;
+        display: grid;
     }
 
-    ol li.rank {
+    .partido {
+        background: #f12711;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        font-size: 25px;
+        padding: 0.6em;
+        margin: 0.3em;
+        box-shadow: 3px 3px 3px black;
         display: grid;
-        grid-template-columns: 4fr 1fr 1fr;
+        grid-template-columns: 3fr 1fr 3fr;
+        text-align: center;
     }
+
+
 
 </style>
