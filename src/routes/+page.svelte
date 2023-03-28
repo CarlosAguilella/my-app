@@ -1,10 +1,10 @@
 <div class ='page'>
 
-    <img src='logo.jpg' alt=''/>
-
+<img src='logo.jpg' alt=''/>    
     <h1>Torneo padel DAW</h1>
+    <input bind:value={nPlayer}/>
 
-    {#if players.length < 8}
+    {#if faltanPlayers }
         <input bind:value = {name}/>
     
         <button on:click={addJugador}>ADD a {name}</button>
@@ -17,12 +17,23 @@
             <li>{player} <button on:click={() => remJugador(player)}>🚮🚮🚮</button></li>            
         {/each}
     </ul>
+
+    <button disabled={faltanPlayers} on:click={partidos}>GENERAR</button>
+    
+    {#each parejas as pareja}
+        <li>{pareja.j1} y {pareja.j2}</li>
+    {/each}
+
 </div>
 
 <script>
     let name ='';
+    let nPlayer ='';
 
-    let players = ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan'];
+    let players = ['Hector','Carlos','Gerard','Alex','Josep','JP','Juan','Dolors'];
+    let parejas = [];
+
+    $: faltanPlayers = players.length < nPlayer;
 
     function addJugador() {
         players.push(name);
@@ -31,6 +42,19 @@
 
     function remJugador(playerToRemove){
         players = players.filter(player => player !== playerToRemove);
+    }
+    function partidos(){
+        parejas=[];
+        for(let i = 0; i<players.length/2;i++){
+            let j1 = players[Math.floor(Math.random() * 8)];
+            let j2 = players[Math.floor(Math.random() * 8)];
+
+            players = players.filter(player => player !== playerToRemove);
+
+            parejas.push({j1:j1,j2:j2});
+        }
+
+        parejas = parejas;
     }
 </script>
 
